@@ -1,7 +1,8 @@
 <?php
+
 include "TemplateEngine.php";
 
-$parameters = array(array("Werber", "auteur"), array("Fourmis", "description"), array("21", "prix"));
+$parameters = array(array("Site random", "nom"), array("Werber", "auteur"), array("Fourmis", "description"), array("21", "prix"));
 
 $engine = new TemplateEngine();
 
