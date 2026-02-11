@@ -1,0 +1,15 @@
+su -
+nano /etc/sudoers -> elpast ALL=(ALL) ALL
+
+apt-get update
+apt-get upgrade
+apt-get install php
+apt-get install vim
+
+sudo mount -t vboxsf pc/folder vm/folder
+
+sudo composer create-project synfony/skeleton d04 "^8.0.99"
+sudo composer require webapp
+sudo composer require synfony/maker-bundle --dev
+sudo php bin/console make:controller
+sudo php -S localhost:8000
