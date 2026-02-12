@@ -8,8 +8,12 @@ apt-get install vim
 
 sudo mount -t vboxsf pc/folder vm/folder
 
-sudo composer create-project synfony/skeleton d04 "^8.0.99"
-sudo composer require webapp
-sudo composer require synfony/maker-bundle --dev
+sudo composer create-project synfony/skeleton d04 "^7.4.5"
+
+sudo composer require symfony/routing ?
+sudo chown -R $USER:$USER . // TRES IMPORTANT QUAND ls -la est en root  root !!
+sudo composer require synfony/maker-bundle --dev ?
 sudo php bin/console make:controller
-sudo php -S localhost:8000
+sudo php -S 127.0.0.1:8000 -t public
+
+composer require twig

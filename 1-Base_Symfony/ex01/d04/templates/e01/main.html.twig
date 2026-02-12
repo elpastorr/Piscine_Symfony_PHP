@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Main Page{% endblock %}
+
+{% block content %}
+    <h2>Available Articles</h2>
+    <ul>
+        {% for key, content in articles %}
+            <li><a href="{{ path('e01_article', {'article': key}) }}">{{ key|capitalize }}</a></li>
+        {% endfor %}
+    </ul>
+{% endblock %}

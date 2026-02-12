@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+    <h2>{{ title }}</h2>
+    <p>{{ content }}</p>
+    <a href="{{ path('e01_main') }}">Back to main page</a>
+{% endblock %}
