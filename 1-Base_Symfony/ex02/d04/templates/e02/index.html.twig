@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Exercise 02</h1>
+
+    {{ form_start(form) }}
+        {{ form_row(form.message) }}
+        {{ form_row(form.includeTimestamp) }}
+        <button type="submit">Submit</button>
+    {{ form_end(form) }}
+
+    {% if lastLine %}
+        <h3>Last line added:</h3>
+        <p>{{ lastLine }}</p>
+    {% endif %}
+{% endblock %}

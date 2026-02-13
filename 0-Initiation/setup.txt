@@ -4,16 +4,18 @@ nano /etc/sudoers -> elpast ALL=(ALL) ALL
 apt-get update
 apt-get upgrade
 apt-get install php
-apt-get install vim
 
 sudo mount -t vboxsf pc/folder vm/folder
 
-sudo composer create-project synfony/skeleton d04 "^7.4.5"
+sudo composer create-project symfony/skeleton d04 "^7.4.5"
+// sudo composer require symfony/routing
+// sudo composer require symfony/maker-bundle --dev
+composer require twig --ignore-platform-req=ext-xml
+composer require symfony/form --ignore-platform-req=ext-xml
+composer require symfony/validator --ignore-platform-req=ext-xml
 
-sudo composer require symfony/routing ?
 sudo chown -R $USER:$USER . // TRES IMPORTANT QUAND ls -la est en root  root !!
-sudo composer require synfony/maker-bundle --dev ?
-sudo php bin/console make:controller
-sudo php -S 127.0.0.1:8000 -t public
 
-composer require twig
+sudo php bin/console make:controller
+php -S 127.0.0.1:8000 -t public
+

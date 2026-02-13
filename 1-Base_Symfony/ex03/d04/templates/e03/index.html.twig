@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Exercise 03</h1>
+
+    <table border="1" cellspacing="0" cellpadding="0">
+        <thead>
+            <tr>
+                {% for color in shades|keys %}
+                    <th>{{ color|capitalize }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in 0..shadesNB - 1 %}
+                <tr>
+                    {% for color in shades|keys %}
+                        <td style="
+                            height: 40px;
+                            width: 80px;
+                            background-color: {{ shades[color][i] }};
+                        ">
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
