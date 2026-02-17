@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Table</title>
+</head>
+<body>
+
+<h1>Create Users Table</h1>
+
+{% for message in app.flashes('success') %}
+    <div style="color: green;">{{ message }}</div>
+{% endfor %}
+
+{% for message in app.flashes('error') %}
+    <div style="color: red;">{{ message }}</div>
+{% endfor %}
+
+<a href="{{ path('create_table') }}">
+    <button>Create Table</button>
+</a>
+
+</body>
+</html>

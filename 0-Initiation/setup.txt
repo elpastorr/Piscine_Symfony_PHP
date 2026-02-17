@@ -4,18 +4,32 @@ nano /etc/sudoers -> elpast ALL=(ALL) ALL
 apt-get update
 apt-get upgrade
 apt-get install php
+apt-get install composer
 
 sudo mount -t vboxsf pc/folder vm/folder
 
 sudo composer create-project symfony/skeleton d04 "^7.4.5"
-// sudo composer require symfony/routing
+sudo php bin/console make:controller
+sudo composer require symfony/routing
+
 // sudo composer require symfony/maker-bundle --dev
+
+1-Base_Symfony:
 composer require twig --ignore-platform-req=ext-xml
 composer require symfony/form --ignore-platform-req=ext-xml
 composer require symfony/validator --ignore-platform-req=ext-xml
 
+2-SQL:
+composer require symfony/webapp-pack
+composer require symfony/twig-bundle
+composer require doctrine/dbal
+composer require symfony/dotenv
+
+
+// composer require doctrine/doctrine-bundle --ignore-platform-req=ext-xml
+// sudo apt install php-mysql
+// sudo apt install mariadb-server
+
 sudo chown -R $USER:$USER . // TRES IMPORTANT QUAND ls -la est en root  root !!
 
-sudo php bin/console make:controller
 php -S 127.0.0.1:8000 -t public
-

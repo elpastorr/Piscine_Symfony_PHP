@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Table</title>
+</head>
+<body>
+{# templates/user/list.html.twig #}
+<h1>Users Table</h1>
+
+<table border="1">
+<tr>
+    <th>ID</th><th>Username</th><th>Name</th><th>Email</th><th>Enable</th><th>Birthdate</th><th>Address</th>
+</tr>
+
+{% for u in users %}
+<tr>
+    <td>{{ u.id }}</td>
+    <td>{{ u.username }}</td>
+    <td>{{ u.name }}</td>
+    <td>{{ u.email }}</td>
+    <td>{{ u.enable ? 'Yes' : 'No' }}</td>
+    <td>{{ u.birthdate|date('Y-m-d') }}</td>
+    <td>{{ u.address }}</td>
+</tr>
+{% endfor %}
+</table>
+</body>
+</html>

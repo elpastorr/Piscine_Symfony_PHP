@@ -1,0 +1,6 @@
+mysql -u root -p -h 127.0.0.1 -P 3306
+pw123
+
+USE d05_table;
+
+DESCRIBE users;
