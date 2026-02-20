@@ -1,0 +1,4 @@
+to test:
+creating a user:
+http://127.0.0.1/ex04?title=Test&description=Demo
+Test et Demo remplacable

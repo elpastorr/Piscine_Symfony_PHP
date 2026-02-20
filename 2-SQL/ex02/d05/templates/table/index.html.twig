@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Exercise 02</title>
+</head>
+<body>
+
+<h1>Insert User</h1>
+
+{{ form_start(form) }}
+{{ form_widget(form) }}
+<button type="submit">Submit</button>
+{{ form_end(form) }}
+
+<h2>Users</h2>
+
+<table border="1">
+<tr>
+    <th>ID</th>
+    <th>Username</th>
+    <th>Email</th>
+    <th>Enabled</th>
+</tr>
+
+{% for user in users %}
+<tr>
+    <td>{{ user.id }}</td>
+    <td>{{ user.username }}</td>
+    <td>{{ user.email }}</td>
+    <td>{{ user.enable }}</td>
+</tr>
+{% endfor %}
+
+</table>
+
+</body>
+</html>
