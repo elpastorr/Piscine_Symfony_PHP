@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Table</title>
+</head>
+<body>
+
+<h1>Ex07 Users (ORM Update)</h1>
+
+{% if message %}
+    <p><strong>{{ message }}</strong></p>
+{% endif %}
+
+<table border="1">
+<tr>
+    <th>ID</th>
+    <th>Username</th>
+    <th>Email</th>
+    <th>Action</th>
+</tr>
+
+{% for user in users %}
+<tr>
+    <td>{{ user.id }}</td>
+    <td>{{ user.username }}</td>
+    <td>{{ user.email }}</td>
+    <td>
+        <a href="{{ path('ex07_edit', {'id': user.id}) }}">
+            Update
+        </a>
+    </td>
+</tr>
+{% endfor %}
+</table>
+
+</body>
+</html>
