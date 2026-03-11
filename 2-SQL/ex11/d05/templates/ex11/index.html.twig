@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Create Person{% endblock %}
+
+{% block body %}
+<h1>Persons</h1>
+
+<form method="get">
+    Filter by birthdate:
+    <input type="date" name="date">
+
+    Sort by:
+    <select name="sort">
+        <option value="">None</option>
+        <option value="name">Name</option>
+        <option value="balance">Balance</option>
+    </select>
+
+    <button type="submit">Apply</button>
+</form>
+
+<table border="1">
+<tr>
+    <th>ID</th>
+    <th>Username</th>
+    <th>Name</th>
+    <th>Birthdate</th>
+    <th>Account</th>
+    <th>Balance</th>
+    <th>City</th>
+</tr>
+
+{% for p in persons %}
+<tr>
+    <td>{{ p.id }}</td>
+    <td>{{ p.username }}</td>
+    <td>{{ p.name }}</td>
+    <td>{{ p.birthdate }}</td>
+    <td>{{ p.account_number }}</td>
+    <td>{{ p.balance }}</td>
+    <td>{{ p.city }}</td>
+</tr>
+{% endfor %}
+</table>
+{% endblock %}

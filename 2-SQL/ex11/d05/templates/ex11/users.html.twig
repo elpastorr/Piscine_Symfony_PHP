@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Person List{% endblock %}
+
+{% block body %}
+<h1>Users</h1>
+    
+<a href="{{ path('ex10_import') }}">Import users</a>
+
+    <table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Username</th>
+        <th>Name</th>
+        <th>Email</th>
+    </tr>
+
+    {% for user in users %}
+    <tr>
+    <td>{{ user.id }}</td>
+    <td>{{ user.username }}</td>
+    <td>{{ user.name }}</td>
+    <td>{{ user.email }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}
