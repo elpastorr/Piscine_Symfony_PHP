@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Create Person{% endblock %}
+
+{% block body %}
+{% for emp in employees %}
+<tr>
+    <td>{{ emp.firstname }}</td>
+    <td>{{ emp.lastname }}</td>
+    <td>{{ emp.email }}</td>
+    <td>{{ emp.manager ? emp.manager.firstname ~ ' ' ~ emp.manager.lastname : 'N/A' }}</td>
+    <td>{{ emp.position }}</td>
+    <td>
+        <a href="{{ path('employee_edit', {'id': emp.id}) }}">Edit</a>
+        <a href="{{ path('employee_delete', {'id': emp.id}) }}">Delete</a>
+    </td>
+</tr>
+{% endfor %}
+{% endblock %}

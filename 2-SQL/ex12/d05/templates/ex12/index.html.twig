@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Create Person{% endblock %}
+
+{% block body %}
+<table>
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Birthdate</th>
+            <th>Account Number</th>
+            <th>Balance</th>
+            <th>City</th>
+            <th>Street</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for person in persons %}
+            <tr>
+                <td>{{ person.username }}</td>
+                <td>{{ person.name }}</td>
+                <td>{{ person.email }}</td>
+                <td>{{ person.birthdate ? person.birthdate|date('Y-m-d') : '' }}</td>
+                <td>{{ person.bankAccount ? person.bankAccount.accountNumber : 'N/A' }}</td>
+                <td>
+                    {% if person.addresses|length > 0 %}
+                        {{ person.addresses[0].city }}
+                    {% else %}
+                        N/A
+                    {% endif %}
+                </td>
+                <td>
+                    {% if person.addresses|length > 0 %}
+                        {{ person.addresses[0].street }}
+                    {% else %}
+                        N/A
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
