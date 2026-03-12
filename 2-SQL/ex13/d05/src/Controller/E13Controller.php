@@ -2,13 +2,15 @@
 
 namespace App\Controller;
 
-use Doctrine\DBAL\Connection;
+use App\Entity\Employee;
+use App\Form\EmployeeType;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Attribute\Route;
 
-class E11Controller extends AbstractController
+class E13Controller extends AbstractController
 {
     // #[Route('/ex13', name: 'ex13')]
     // public function index(Request $request, Connection $connection): Response
@@ -45,6 +47,15 @@ class E11Controller extends AbstractController
     //         'persons' => $persons
     //     ]);
     // }
+
+    #[Route('/employee', name: 'employee_list')]
+    public function index(EntityManagerInterface $em): Response
+    {
+        $employees = $em->getRepository(Employee::class)->findAll();
+        return $this->render('employee/index.html.twig', [
+            'employees' => $employees,
+        ]);
+    }
 
     #[Route('/employee/create', name:'employee_create')]
     public function create(Request $request, EntityManagerInterface $em): Response

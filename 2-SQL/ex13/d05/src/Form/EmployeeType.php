@@ -23,7 +23,6 @@ class EmployeeType extends AbstractType
             ->add('hours')
             ->add('salary')
             ->add('position')
-
             ->add('email', EmailType::class, [
                 'constraints' => [
                     new Assert\NotBlank(),
@@ -52,12 +51,9 @@ class EmployeeType extends AbstractType
             ])
             ->add('manager', EntityType::class, [
                 'class' => Employee::class,
-                'choice_label' => function($employee) {
-                    return $employee->firstname . ' ' . $employee->lastname;
-                },
+                'choice_label' => 'firstname',
                 'required' => false,
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

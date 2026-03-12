@@ -4,10 +4,11 @@ namespace App\Entity;
 
 use App\Enum\Hours;
 use App\Enum\Position;
-use App\Repository\EmployeeRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
-#[ORM\Entity(repositoryClass: EmployeeRepository::class)]
+#[ORM\Entity]
 class Employee
 {
     #[ORM\Id]
@@ -44,6 +45,18 @@ class Employee
 
     #[ORM\Column(enumType: Position::class)]
     private ?Position $position = null;
+
+    #[ORM\ManyToOne(targetEntity: Employee::class, inversedBy: 'employees')]
+    private ?Employee $manager = null;
+
+
+    #[ORM\OneToMany(mappedBy: 'manager', targetEntity: Employee::class)]
+    private Collection $employees;
+
+    public function __construct()
+    {
+        $this->employees = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {

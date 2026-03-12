@@ -23,6 +23,9 @@ class Address
     #[ORM\JoinColumn(nullable: false)]
     private ?Person $Person = null;
 
+    #[ORM\OneToMany(targetEntity: Address::class, mappedBy: 'person')]
+    private Collection $addresses;
+
     public function getId(): ?int
     {
         return $this->id;

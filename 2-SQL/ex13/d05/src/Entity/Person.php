@@ -27,10 +27,10 @@ class Person
     #[ORM\Column]
     private ?bool $enable = null;
 
-    #[ORM\Column]
-    private ?\DateTime $birthdate = null;
+    #[ORM\Column(type: 'datetime')]
+    private ?\DateTimeInterface $birthdate = null;
 
-    #[ORM\Column(length: 20)]
+    #[ORM\Column(length: 255)]
     private ?string $maritalStatus = null;
 
     #[ORM\OneToOne(mappedBy: 'person', cascade: ['persist', 'remove'])]
@@ -39,7 +39,7 @@ class Person
     /**
      * @var Collection<int, Address>
      */
-    #[ORM\OneToMany(targetEntity: Address::class, mappedBy: 'Person')]
+    #[ORM\OneToMany(targetEntity: Address::class, mappedBy: 'Person', cascade: ['persist', 'remove'])]
     private Collection $addresses;
 
     public function __construct()
@@ -131,12 +131,10 @@ class Person
 
     public function setBankAccount(?BankAccount $bankAccount): static
     {
-        // unset the owning side of the relation if necessary
         if ($bankAccount === null && $this->bankAccount !== null) {
             $this->bankAccount->setPerson(null);
         }
 
-        // set the owning side of the relation if necessary
         if ($bankAccount !== null && $bankAccount->getPerson() !== $this) {
             $bankAccount->setPerson($this);
         }
@@ -146,9 +144,6 @@ class Person
         return $this;
     }
 
-    /**
-     * @return Collection<int, Address>
-     */
     public function getAddresses(): Collection
     {
         return $this->addresses;
@@ -167,7 +162,6 @@ class Person
     public function removeAddress(Address $address): static
     {
         if ($this->addresses->removeElement($address)) {
-            // set the owning side to null (unless already changed)
             if ($address->getPerson() === $this) {
                 $address->setPerson(null);
             }
