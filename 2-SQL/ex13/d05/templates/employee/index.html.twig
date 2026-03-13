@@ -11,22 +11,36 @@
 {% endfor %}
 
 <table>
+<thead>
 <tr>
-    <th>ID</th><th>Name</th><th>Email</th><th>Manager</th><th>Actions</th>
+    <th>ID</th>
+    <th>Firstname</th>
+    <th>Lastname</th>
+    <th>Email</th>
+    <th>Manager</th>
+    <th>Hours</th>
+    <th>Position</th>
 </tr>
-{% for emp in employees %}
+</thead>
+
+<tbody>
+{% for employee in employees %}
 <tr>
-    <td>{{ emp.id }}</td>
-    <td>{{ emp.firstname }} {{ emp.lastname }}</td>
-    <td>{{ emp.email }}</td>
-    <td>{{ emp.manager ? emp.manager.firstname ~ ' ' ~ emp.manager.lastname : 'None' }}</td>
+    <td>{{ employee.id }}</td>
+    <td>{{ employee.firstname }}</td>
+    <td>{{ employee.lastname }}</td>
+    <td>{{ employee.email }}</td>
     <td>
-        <a href="{{ path('employee_edit', {'id': emp.id}) }}">Edit</a>
-        <a href="{{ path('employee_delete', {'id': emp.id}) }}">Delete</a>
+        {{ employee.manager ? employee.manager.firstname ~ ' ' ~ employee.manager.lastname : 'None' }}
     </td>
+    <td>{{ employee.hours }}</td>
+    <td>{{ employee.position }}</td>
 </tr>
 {% else %}
-    <tr><td colspan="7">No employees yet</td></tr>
+<tr>
+<td colspan="7">No employees found</td>
+</tr>
 {% endfor %}
+</tbody>
 </table>
 {% endblock %}

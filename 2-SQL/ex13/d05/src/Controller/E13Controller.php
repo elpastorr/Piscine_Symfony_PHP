@@ -14,9 +14,9 @@ use Symfony\Component\Routing\Attribute\Route;
 class E13Controller extends AbstractController
 {
     #[Route('/', name: 'employee_list')]
-    public function index(EntityManagerInterface $em): Response
+    public function index(EmployeeRepository $employeeRepository): Response
     {
-        $employees = $em->getRepository(Employee::class)->findAll();
+        $employees = $employeeRepository->findAll();
         return $this->render('employee/index.html.twig', ['employees' => $employees]);
     }
 
@@ -28,7 +28,7 @@ class E13Controller extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
+            // $entityManager = $this->getDoctrine()->getManager();
             $em->persist($employee);
             $em->flush();
             $this->addFlash('success', 'Employee created successfully');
