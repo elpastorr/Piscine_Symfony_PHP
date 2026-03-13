@@ -2,8 +2,7 @@
 
 namespace App\Enum;
 
-enum Position: string
-{
+enum Position: string {
     case MANAGER = 'manager';
     case ACCOUNT_MANAGER = 'account_manager';
     case QA_MANAGER = 'qa_manager';

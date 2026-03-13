@@ -1,0 +1,24 @@
+{# templates/employee/edit.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Employee{% endblock %}
+
+{% block body %}
+<h1>Edit Employee</h1>
+
+{# Show flash messages #}
+{% for message in app.flashes('success') %}
+    <div style="color: green;">{{ message }}</div>
+{% endfor %}
+{% for message in app.flashes('error') %}
+    <div style="color: red;">{{ message }}</div>
+{% endfor %}
+
+{{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button class="btn">Update</button>
+{{ form_end(form) }}
+
+<a href="{{ path('employee_list') }}">Back to list</a>
+{% endblock %}

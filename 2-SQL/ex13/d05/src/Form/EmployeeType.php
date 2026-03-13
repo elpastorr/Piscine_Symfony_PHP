@@ -2,11 +2,14 @@
 
 namespace App\Form;
 
+use App\Enum\Hours;
+use App\Enum\Position;
 use App\Entity\Employee;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints as Assert;
 
 class EmployeeType extends AbstractType
 {
@@ -16,43 +19,38 @@ class EmployeeType extends AbstractType
             ->add('firstname')
             ->add('lastname')
             ->add('email')
-            ->add('birthdate')
             ->add('active')
-            ->add('employed_since')
-            ->add('employed_until')
-            ->add('hours')
-            ->add('salary')
-            ->add('position')
-            ->add('email', EmailType::class, [
-                'constraints' => [
-                    new Assert\NotBlank(),
-                    new Assert\Email(),
-                ]
+            ->add('birthdate', DateType::class, ['widget' => 'single_text'])
+            ->add('employed_since', DateType::class, ['widget' => 'single_text'])
+            ->add('employed_until', DateType::class, [
+                'widget' => 'single_text',
+                'required' => false
             ])
             ->add('hours', ChoiceType::class, [
                 'choices' => [
-                    '8 hours' => '8',
-                    '6 hours' => '6',
-                    '4 hours' => '4',
+                    '8 hours' => Hours::EIGHT,
+                    '6 hours' => Hours::SIX,
+                    '4 hours' => Hours::FOUR
                 ],
+                'placeholder' => 'Select hours'
             ])
+            ->add('salary')
             ->add('position', ChoiceType::class, [
                 'choices' => [
-                    'Manager' => 'manager',
-                    'Account Manager' => 'account_manager',
-                    'QA Manager' => 'qa_manager',
-                    'Dev Manager' => 'dev_manager',
-                    'CEO' => 'ceo',
-                    'COO' => 'coo',
-                    'Backend Dev' => 'backend_dev',
-                    'Frontend Dev' => 'frontend_dev',
-                    'QA Tester' => 'qa_tester',
+                    'Manager' => Position::MANAGER,
+                    'Account Manager' => Position::ACCOUNT_MANAGER,
+                    'QA Manager' => Position::QA_MANAGER,
+                    'Dev Manager' => Position::DEV_MANAGER,
+                    'CEO' => Position::CEO,
+                    'COO' => Position::COO,
+                    'Backend Dev' => Position::BACKEND_DEV,
+                    'Frontend Dev' => Position::FRONTEND_DEV,
+                    'QA Tester' => Position::QA_TESTER
                 ],
+                'placeholder' => 'Select position'
             ])
-            ->add('manager', EntityType::class, [
-                'class' => Employee::class,
-                'choice_label' => 'firstname',
-                'required' => false,
+            ->add('manager', null, [
+                'required' => false
             ]);
     }
 

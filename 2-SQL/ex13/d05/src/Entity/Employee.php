@@ -7,6 +7,7 @@ use App\Enum\Position;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity]
 class Employee
@@ -17,38 +18,41 @@ class Employee
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
     private ?string $firstname = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
     private ?string $lastname = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
+    #[Assert\Email]
     private ?string $email = null;
 
-    #[ORM\Column]
-    private ?\DateTime $birthdate = null;
+    #[ORM\Column(type: 'datetime')]
+    private ?\DateTimeInterface $birthdate = null;
 
     #[ORM\Column]
     private ?bool $active = null;
 
-    #[ORM\Column]
-    private ?\DateTime $employed_since = null;
+    #[ORM\Column(type: 'datetime')]
+    private ?\DateTimeInterface $employed_since = null;
 
-    #[ORM\Column]
-    private ?\DateTime $employed_until = null;
+    #[ORM\Column(type: 'datetime')]
+    private ?\DateTimeInterface $employed_until = null;
 
-    #[ORM\Column(enumType: Hours::class)]
+    #[ORM\Column(type: 'string', enumType: Hours::class)]
     private ?Hours $hours = null;
+
+    #[ORM\Column(type: 'string', enumType: Position::class)]
+    private ?Position $position = null;
 
     #[ORM\Column]
     private ?int $salary = null;
 
-    #[ORM\Column(enumType: Position::class)]
-    private ?Position $position = null;
-
     #[ORM\ManyToOne(targetEntity: Employee::class, inversedBy: 'employees')]
     private ?Employee $manager = null;
-
 
     #[ORM\OneToMany(mappedBy: 'manager', targetEntity: Employee::class)]
     private Collection $employees;
@@ -180,6 +184,17 @@ class Employee
     {
         $this->position = $position;
 
+        return $this;
+    }
+
+    public function getManager(): ?Employee
+    {
+        return $this->manager;
+    }
+
+    public function setManager(?Employee $manager): self
+    {
+        $this->manager = $manager;
         return $this;
     }
 }

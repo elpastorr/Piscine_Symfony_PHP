@@ -3,17 +3,30 @@
 {% block title %}Create Person{% endblock %}
 
 {% block body %}
+<h1>Employees</h1>
+<a href="{{ path('employee_create') }}">Create Employee</a>
+
+{% for message in app.flashes('success') %}
+<div>{{ message }}</div>
+{% endfor %}
+
+<table>
+<tr>
+    <th>ID</th><th>Name</th><th>Email</th><th>Manager</th><th>Actions</th>
+</tr>
 {% for emp in employees %}
 <tr>
-    <td>{{ emp.firstname }}</td>
-    <td>{{ emp.lastname }}</td>
+    <td>{{ emp.id }}</td>
+    <td>{{ emp.firstname }} {{ emp.lastname }}</td>
     <td>{{ emp.email }}</td>
-    <td>{{ emp.manager ? emp.manager.firstname ~ ' ' ~ emp.manager.lastname : 'N/A' }}</td>
-    <td>{{ emp.position }}</td>
+    <td>{{ emp.manager ? emp.manager.firstname ~ ' ' ~ emp.manager.lastname : 'None' }}</td>
     <td>
         <a href="{{ path('employee_edit', {'id': emp.id}) }}">Edit</a>
         <a href="{{ path('employee_delete', {'id': emp.id}) }}">Delete</a>
     </td>
 </tr>
+{% else %}
+    <tr><td colspan="7">No employees yet</td></tr>
 {% endfor %}
+</table>
 {% endblock %}
