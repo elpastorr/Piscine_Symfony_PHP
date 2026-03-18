@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<h1>SQL Injection Demo</h1>
+
+{% if table_exists %}
+    <p style="color:green;">Table exists</p>
+{% else %}
+    <p style="color:red;">Table does not exist</p>
+{% endif %}
+
+<form id="inject-form" method="post" action="{{ path('sql_inject_save') }}">
+    <input type="text" name="username" placeholder="Username">
+    <input type="text" name="password" placeholder="Password">
+    <button type="submit">Save</button>
+</form>
+
+<a href="{{ path('sql_inject_list') }}">See data</a>
+
+<script>
+document.getElementById('inject-form').addEventListener('submit', function(e) {
+    document.querySelector('input[name="username"]').value = "jean-michel hacker";
+    document.querySelector('input[name="password"]').value = "21'), ('on peut mettre','ce quon veut";
+});
+</script>
+
+{% endblock %}

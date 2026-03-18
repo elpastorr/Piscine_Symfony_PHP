@@ -1,5 +1,3 @@
-{# templates/employee/create.html.twig #}
-
 {% extends 'base.html.twig' %}
 
 {% block title %}Create Employee{% endblock %}
@@ -7,18 +5,87 @@
 {% block body %}
 <h1>Create Employee</h1>
 
-{# Show flash messages #}
 {% for message in app.flashes('success') %}
     <div style="color: green;">{{ message }}</div>
 {% endfor %}
+
 {% for message in app.flashes('error') %}
     <div style="color: red;">{{ message }}</div>
 {% endfor %}
 
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">Save</button>
+{{ form_start(form, {
+    'attr': {'data-turbo': 'false'}
+}) }}
+
+    <div>
+        {{ form_label(form.firstname) }}
+        {{ form_widget(form.firstname) }}
+        {{ form_errors(form.firstname) }}
+    </div>
+
+    <div>
+        {{ form_label(form.lastname) }}
+        {{ form_widget(form.lastname) }}
+        {{ form_errors(form.lastname) }}
+    </div>
+
+    <div>
+        {{ form_label(form.email) }}
+        {{ form_widget(form.email) }}
+        {{ form_errors(form.email) }}
+    </div>
+
+    <div>
+        {{ form_label(form.active) }}
+        {{ form_widget(form.active) }}
+    </div>
+
+    <div>
+        {{ form_label(form.birthdate) }}
+        {{ form_widget(form.birthdate) }}
+        {{ form_errors(form.birthdate) }}
+    </div>
+
+    <div>
+        {{ form_label(form.employed_since) }}
+        {{ form_widget(form.employed_since) }}
+        {{ form_errors(form.employed_since) }}
+    </div>
+
+    <div>
+        {{ form_label(form.employed_until) }}
+        {{ form_widget(form.employed_until) }}
+        {{ form_errors(form.employed_until) }}
+    </div>
+
+    <div>
+        {{ form_label(form.salary) }}
+        {{ form_widget(form.salary) }}
+        {{ form_errors(form.salary) }}
+    </div>
+
+    <div>
+        {{ form_label(form.hours) }}
+        {{ form_widget(form.hours) }}
+        {{ form_errors(form.hours) }}
+    </div>
+
+    <div>
+        {{ form_label(form.position) }}
+        {{ form_widget(form.position) }}
+        {{ form_errors(form.position) }}
+    </div>
+
+    <div>
+        {{ form_label(form.manager) }}
+        {{ form_widget(form.manager) }}
+        {{ form_errors(form.manager) }}
+    </div>
+
+    <button type="submit">Save</button>
+
 {{ form_end(form) }}
 
 <a href="{{ path('employee_list') }}">Back to list</a>
+
 {% endblock %}

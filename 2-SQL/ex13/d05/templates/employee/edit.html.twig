@@ -7,7 +7,6 @@
 {% block body %}
 <h1>Edit Employee</h1>
 
-{# Show flash messages #}
 {% for message in app.flashes('success') %}
     <div style="color: green;">{{ message }}</div>
 {% endfor %}
@@ -17,7 +16,7 @@
 
 {{ form_start(form) }}
     {{ form_widget(form) }}
-    <button class="btn">Update</button>
+    <button type="submit">Update</button>
 {{ form_end(form) }}
 
 <a href="{{ path('employee_list') }}">Back to list</a>

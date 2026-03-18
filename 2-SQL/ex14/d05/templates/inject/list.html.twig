@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<h1>Stored Data</h1>
+
+<table border="1">
+<tr>
+    <th>ID</th>
+    <th>Username</th>
+    <th>Password</th>
+</tr>
+
+{% for row in data %}
+<tr>
+    <td>{{ row.id }}</td>
+    <td>{{ row.username }}</td>
+    <td>{{ row.password }}</td>
+</tr>
+{% endfor %}
+</table>
+
+{% endblock %}

@@ -1,46 +1,47 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Create Person{% endblock %}
-
 {% block body %}
 <h1>Employees</h1>
-<a href="{{ path('employee_create') }}">Create Employee</a>
 
-{% for message in app.flashes('success') %}
-<div>{{ message }}</div>
-{% endfor %}
+<a href="{{ path('employee_create') }}">Create</a>
 
-<table>
-<thead>
+<table border="1">
 <tr>
     <th>ID</th>
-    <th>Firstname</th>
-    <th>Lastname</th>
+    <th>Name</th>
     <th>Email</th>
     <th>Manager</th>
     <th>Hours</th>
     <th>Position</th>
+    <th>Modify</th>
 </tr>
-</thead>
 
-<tbody>
-{% for employee in employees %}
+{% for e in employees %}
 <tr>
-    <td>{{ employee.id }}</td>
-    <td>{{ employee.firstname }}</td>
-    <td>{{ employee.lastname }}</td>
-    <td>{{ employee.email }}</td>
+    <td>{{ e.id }}</td>
+    <td>{{ e.firstname }} {{ e.lastname }}</td>
+    <td>{{ e.email }}</td>
     <td>
-        {{ employee.manager ? employee.manager.firstname ~ ' ' ~ employee.manager.lastname : 'None' }}
+        {{ e.manager ? e.manager.firstname : 'None' }}
     </td>
-    <td>{{ employee.hours }}</td>
-    <td>{{ employee.position }}</td>
+    <td>{{ e.hours }}</td>
+    <td>{{ e.position }}</td>
+    <td>
+        <a href="{{ path('employee_edit', {'id': e.id}) }}">
+            <button>Edit</button>
+        </a>
+
+        <form method="post" action="{{ path('employee_delete', {'id': e.id}) }}" style="display:inline;">
+            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ e.id) }}">
+            <button type="submit" onclick="return confirm('Are you sure?');">
+                Delete
+            </button>
+        </form>
+    </td>
 </tr>
 {% else %}
-<tr>
-<td colspan="7">No employees found</td>
-</tr>
+<tr><td colspan="4">No employees</td></tr>
 {% endfor %}
-</tbody>
+
 </table>
 {% endblock %}
