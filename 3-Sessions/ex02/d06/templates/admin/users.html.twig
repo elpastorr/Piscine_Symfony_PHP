@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin - User List{% endblock %}
+
+{% block body %}
+<h1>All Registered Users</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Email</th>
+            <th>Roles</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for user in users %}
+        <tr>
+            <td>{{ user.id }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.roles|join(', ') }}</td>
+            <td>
+                {% if user != app.user %}
+                    <a href="{{ path('admin_user_delete', {'id': user.id}) }}" 
+                       onclick="return confirm('Are you sure?')">Delete</a>
+                {% else %}
+                    Cannot delete self
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -1,3 +1,5 @@
+  
+
 su -
 nano /etc/sudoers -> elpast ALL=(ALL) ALL
 
