@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}HomePage{% endblock %}
+
+{% block body %}
+<h1>Welcome
+{% if app.user %}
+, {{ app.user.email }}
+{% else %}
+, {{ anonymous_name }}
+{% endif %}
+!</h1>
+
+{% if app.user %}
+    <p><a href="{{ path('post_create') }}">Create Post</a></p>
+    <p><a href="{{ path('app_logout') }}">Logout</a></p>
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <p><a href="{{ path('admin_users') }}">Manage Users</a></p>
+    {% endif %}
+{% else %}
+    <p>Time since last request: {{ seconds_since_last }} seconds</p>
+    <p><a href="{{ path('app_login') }}">Login</a> | <a href="{{ path('app_register') }}">Register</a></p>
+{% endif %}
+
+{% if posts|length > 0 %}
+    <ul>
+        {% for post in posts %}
+            <li>
+                <a href="{{ path('post_show', {'id': post.id}) }}">
+                    {{ post.title }}
+                </a>
+
+                - by {{ post.author.email }} (⭐ {{ post.author.getReputation() }})
+
+                - 👍 {{ post.getLikes() }}
+                - 👎 {{ post.getDislikes() }}
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No posts yet.</p>
+{% endif %}
+
+{% endblock %}

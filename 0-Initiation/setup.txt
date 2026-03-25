@@ -10,8 +10,7 @@ apt-get install composer
 sudo mount -t vboxsf pc/folder vm/folder
 
 sudo composer create-project symfony/skeleton d04 "^7.4.5"
-sudo php bin/console make:controller
-sudo composer require symfony/routing
+
 
 // sudo composer require symfony/maker-bundle --dev
 
@@ -27,10 +26,22 @@ composer require doctrine/dbal
 composer require symfony/dotenv
 
 
-// composer require doctrine/doctrine-bundle --ignore-platform-req=ext-xml
-// sudo apt install php-mysql
-// sudo apt install mariadb-server
-
 sudo chown -R $USER:$USER . // TRES IMPORTANT QUAND ls -la est en root  root !!
 
+LAUNCH WEBSITE:
 php -S 127.0.0.1:8000 -t public
+
+
+MIGRATION PROBLEM:
+sudo rm -rf migration/*
+sudo php bin/console doctrine:database:drop --force
+sudo php bin/console doctrine:database:create
+sudo php bin/console make:migration
+sudo php bin/console doctrine:migrations:migrate
+
+
+ADMIN CREATION:
+php bin/console security:hash-password
+UPDATE user
+SET password = '$2y$13$abc123...'
+WHERE email = 'admin@test.com';

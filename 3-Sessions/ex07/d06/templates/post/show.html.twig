@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block body %}
+<h1>{{ post.title }}</h1>
+<p>By {{ post.author.email }} (⭐ {{ post.author.getReputation() }}) on {{ post.created|date('Y-m-d H:i') }}</p>
+<div>
+    {{ post.content|nl2br }}
+</div>
+<p>
+    👍 {{ post.getLikes() }} |
+    👎 {{ post.getDislikes() }}
+</p>
+
+{% if app.user %}
+    {% if app.user.reputation >= 3 or is_granted('ROLE_ADMIN') %}
+        <a href="{{ path('post_vote', {id: post.id, value: 1}) }}">Like</a>
+    {% endif %}
+    {% if app.user.reputation >= 6 or is_granted('ROLE_ADMIN') %}
+        <a href="{{ path('post_vote', {id: post.id, value: -1}) }}">Dislike</a>
+    {% endif %}
+    {% if app.user.reputation >= 9 or app.user == post.author or is_granted('ROLE_ADMIN') %}
+        <p><a href="{{ path('post_edit', {'id': post.id}) }}">Edit Post</a></p>
+    {% endif %}
+{% endif %}
+
+{% if post.updatedAt %}
+    <p>Last edited by {{ post.updatedBy.email }} on {{ post.updatedAt|date('Y-m-d H:i') }}</p>
+{% endif %}
+
+<a href="{{ path('post_homepage') }}">Back to posts</a>
+{% endblock %}

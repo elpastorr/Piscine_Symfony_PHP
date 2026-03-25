@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AdminController!{% endblock %}
+
+{% block body %}
+<h1>Admin - Users</h1>
+
+{% for message in app.flashes('success') %}
+    <div style="color: green;">{{ message }}</div>
+{% endfor %}
+{% for message in app.flashes('error') %}
+    <div style="color: red;">{{ message }}</div>
+{% endfor %}
+
+<table border="1">
+<tr>
+    <th>ID</th>
+    <th>Email</th>
+    <th>Roles</th>
+    <th>Action</th>
+</tr>
+
+{% for user in users %}
+<tr>
+    <td>{{ user.id }}</td>
+    <td>{{ user.email }}</td>
+    <td>{{ user.roles|join(', ') }}</td>
+    <td>
+        {% if app.user != user %}
+            <a href="{{ path('admin_delete', {id: user.id}) }}">Delete</a>
+        {% else %}
+            (You)
+        {% endif %}
+    </td>
+</tr>
+{% endfor %}
+</table>
+{% endblock %}
