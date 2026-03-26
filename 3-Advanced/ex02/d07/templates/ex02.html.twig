@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<p>
+    {{ 'ex02.number'|trans({'%number%': number}) }}
+</p>
+
+<p>
+    {{ 'ex02.count'|trans({'%count%': count}) }}
+</p>
+
+{% endblock %}

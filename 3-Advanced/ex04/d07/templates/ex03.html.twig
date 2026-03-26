@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+{% set text = 'ex03.text'|trans %}
+
+<h2>Original:</h2>
+<p>{{ text }}</p>
+
+<h2>Uppercase Words:</h2>
+<p>{{ text|uppercaseWords }}</p>
+
+<h2>Number of digits:</h2>
+<p>{{ countNumbers(text) }}</p>
+
+{% endblock %}
