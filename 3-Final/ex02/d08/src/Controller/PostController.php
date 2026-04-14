@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Controller;
 
 use App\Entity\Post;
@@ -10,7 +9,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class PostController extends AbstractController
 {
@@ -18,22 +16,42 @@ class PostController extends AbstractController
     public function defaultAction(Request $request, EntityManagerInterface $em): Response
     {
         $form = $this->createForm(PostType::class, new Post());
+        $posts = $em->getRepository(Post::class)->findBy([], ['created' => 'DESC']);
 
         if ($request->isXmlHttpRequest() && $request->isMethod('POST')) {
             $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
-            $form->handleRequest($request);
-            if ($form->isSubmitted() && $form->isValid()) {
-                $em->persist($form->getData());
-                $em->flush();
-                return new JsonResponse(['success' => true, 'message' => 'Post created successfully!']);
+            try {
+                $form->handleRequest($request);
+                if ($form->isSubmitted() && $form->isValid()) {
+                    $post = $form->getData();
+                    $em->persist($post);
+                    $em->flush();
+                    return new JsonResponse([
+                        'success' => true,
+                        'message' => 'post.success',
+                        'post' => [
+                            'title'   => $post->getTitle(),
+                            'created' => $post->getCreated()->format('d/m/Y H:i'),
+                        ]
+                    ]);
+                }
+
+                $errors = [];
+                foreach ($form->getErrors(true) as $error) {
+                    $errors[] = $error->getMessage();
+                }
+                return new JsonResponse(['success' => false, 'message' => implode(' ', $errors)], 422);
+
+            } catch (\Exception $e) {
+                return new JsonResponse(['success' => false, 'message' => $e->getMessage()], 500);
             }
-            return new JsonResponse(['success' => false, 'message' => 'Invalid form data.'], 422);
         }
 
         return $this->render('post/index.html.twig', [
-            'post_form' => $form->createView(),
+            'post_form'  => $form->createView(),
             'is_logged_in' => (bool) $this->getUser(),
+            'posts'      => $posts,
         ]);
     }
 

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home</title>
+</head>
+<body>
+
+{% if app.user %}
+
+    <h2>Create a Post</h2>
+
+    <form id="post-form">
+        <input type="text" name="title" placeholder="Title">
+        <textarea name="content" placeholder="Content"></textarea>
+        <button type="submit">Send</button>
+    </form>
+
+    <script>
+    document.getElementById('post-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        fetch('/', {
+            method: 'POST',
+            body: new FormData(this)
+        })
+        .then(res => res.json())
+        .then(data => alert(data.message));
+    });
+    </script>
+
+    {% for post in posts %}
+        <h3>{{ post.title }}</h3>
+        <p>{{ post.content }}</p>
+        <small>{{ post.created|date('Y-m-d H:i') }}</small>
+        <hr>
+    {% endfor %}
+
+{% else %}
+
+    <h2>Login</h2>
+
+    <form id="login-form">
+        <input type="text" name="email" placeholder="Email">
+        <input type="password" name="password" placeholder="Password">
+        <button type="submit">Login</button>
+    </form>
+
+    <script>
+    document.getElementById('login-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        fetch('/login', {
+            method: 'POST',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: new FormData(this)
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            } else {
+                alert('Login failed');
+            }
+        });
+    });
+    </script>
+
+{% endif %}
+
+</body>
+</html>

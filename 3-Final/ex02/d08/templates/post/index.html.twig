@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+{% if is_logged_in %}
+    {{ form_start(post_form, {'attr': {'id': 'post-form'}}) }}
+        {{ form_row(post_form.title) }}
+        {{ form_row(post_form.content) }}
+        <button type="submit">{{ 'post.submit'|trans }}</button>
+    {{ form_end(post_form) }}
+
+    <div id="post-message" style="display:none;"></div>
+{% else %}
+    {{ render(controller('App\\Controller\\UserController::loginAction')) }}
+{% endif %}
+
+<h2>{{ 'post.list.title'|trans }}</h2>
+
+{% if posts is empty %}
+    <p id="no-posts">{{ 'post.list.empty'|trans }}</p>
+{% endif %}
+
+<ul id="post-list">
+    {% for post in posts %}
+        <li>
+            <strong>{{ post.title }}</strong>
+            <small>{{ post.created|date('d/m/Y H:i') }}</small>
+        </li>
+    {% endfor %}
+</ul>
+
+{% if is_logged_in %}
+<script>
+document.getElementById('post-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const data = new FormData(this);
+
+    const res  = await fetch('{{ path("app_post_index") }}', {
+        method: 'POST',
+        body: data,
+        headers: { 'X-Requested-With': 'XMLHttpRequest' }
+    });
+
+    const text = await res.text();
+    try {
+        const json = JSON.parse(text);
+        if (json.success) {
+            const msg = document.getElementById('post-message');
+            msg.style.display = 'block';
+            msg.textContent   = '{{ "post.success"|trans }}';
+
+            const noPostsEl = document.getElementById('no-posts');
+            if (noPostsEl) noPostsEl.style.display = 'none';
+
+            const li = document.createElement('li');
+            li.innerHTML = `<strong>${json.post.title}</strong> <small>${json.post.created}</small>`;
+            document.getElementById('post-list').appendChild(li);
+
+            this.reset();
+
+            setTimeout(() => msg.style.display = 'none', 3000);
+        } else {
+            alert(json.message);
+        }
+    } catch (err) {
+        alert('Unexpected error. Check the console.');
+        console.error(text);
+    }
+});
+</script>
+{% endif %}
+
+{% endblock %}

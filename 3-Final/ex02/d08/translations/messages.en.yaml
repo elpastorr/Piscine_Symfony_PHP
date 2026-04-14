@@ -1,0 +1,13 @@
+post:
+    title:
+        label: 'Title'
+        not_blank: 'The title cannot be empty.'
+        unique: 'A post with this title already exists.'
+    content:
+        label: 'Content'
+        not_blank: 'The content cannot be empty.'
+    submit: 'Publish'
+    list:
+        title: 'Posts'
+        empty: 'No posts yet.'
+    success: 'Post created successfully!'
