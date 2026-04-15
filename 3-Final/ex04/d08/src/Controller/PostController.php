@@ -27,10 +27,28 @@ class PostController extends AbstractController
                     $post = $form->getData();
                     $em->persist($post);
                     $em->flush();
+
+                    $data = [
+                        'type' => 'new_post',
+                        'post' => [
+                            'id'      => $post->getId(), // IMPORTANT: you forgot this before!
+                            'title'   => $post->getTitle(),
+                            'created' => $post->getCreated()->format('d/m/Y H:i'),
+                        ]
+                    ];
+
+                    $ch = curl_init('http://127.0.0.1:8080/broadcast');
+                    curl_setopt($ch, CURLOPT_POST, true);
+                    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                    curl_exec($ch);
+                    curl_close($ch);
+
                     return new JsonResponse([
                         'success' => true,
                         'message' => 'post.success',
                         'post' => [
+                            'id'      => $post->getId(),
                             'title'   => $post->getTitle(),
                             'created' => $post->getCreated()->format('d/m/Y H:i'),
                         ]
@@ -78,7 +96,19 @@ class PostController extends AbstractController
     
         $em->remove($post);
         $em->flush();
-    
+
+        $data = [
+            'type' => 'delete_post',
+            'id'   => $post->getId()
+        ];
+
+        $ch = curl_init('http://127.0.0.1:8080/broadcast');
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_exec($ch);
+        curl_close($ch);
+
         return new JsonResponse([
             'success' => true,
             'id' => $post->getId()
